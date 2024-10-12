@@ -1,17 +1,23 @@
 import pygame
 from constants import *
 from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 
 def main():
     pygame.init()
     updatable = pygame.sprite.Group() # Objects that can be updated
     drawable = pygame.sprite.Group()  # Objects that can be drawn
+    asteroids = pygame.sprite.Group() # asteroid objects
     Player.containers = (updatable, drawable)#the containers for the Player class
+    Asteroid.containers = (asteroids, updatable, drawable)#the container for the Asteroid class
+    AsteroidField.containers = (updatable)#the container for the AsteroidField class
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
     dt = 0
     #player x, y values imported from constants.py
     player = Player(x = SCREEN_WIDTH / 2, y = SCREEN_HEIGHT / 2)
+    asteroidField = AsteroidField()
     while True:
         # handle events
         for event in pygame.event.get():
