@@ -1,4 +1,5 @@
 import pygame
+import sys
 from constants import *
 from player import Player
 from asteroid import Asteroid
@@ -37,7 +38,14 @@ def main():
         # iterates over each sprite in the updatable group, manually calling the update method on each sprite with the same dt argument.
         for sprite in updatable:
             sprite.update(dt)
-
+        
+        for sprite in asteroids:
+            #player.is_colliding(sprite)
+            if(player.is_colliding(sprite)):
+                print('collision detected!')
+                sys.exit("spaceship crashed :(")
+            else:
+                print('no collision')
         # Clear the screen
         screen.fill("black")# Fill with black, or whatever your background color is
 
