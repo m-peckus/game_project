@@ -1,5 +1,6 @@
 import pygame
 import sys
+
 from constants import *
 from player import Player
 from asteroid import Asteroid
@@ -40,12 +41,21 @@ def main():
             sprite.update(dt)
         
         for sprite in asteroids:
-            #player.is_colliding(sprite)
-            if(player.is_colliding(sprite)):
-                print('collision detected!')
-                sys.exit("spaceship crashed :(")
-            else:
-                print('no collision')
+            if sprite.collides_with(player):
+                #Initialize pygame font
+                pygame.font.init()
+                #create a Font object
+                font = pygame.font.Font(None, 36)#None for default font, 36 for size
+                #Render the message
+                text_surface = font.render('Captain! You just crashed :(', True, (255, 255, 255))# White color
+                screen.blit(text_surface, (50,50))# Position the text at (50, 50) on the screen
+                pygame.display.flip()# Update the screen
+                pygame.time.wait(1500)  # Wait for 1500 milliseconds (1.5 seconds)
+                #sys.exit()
+                print("Game over!")
+                pygame.quit() #ensure a smooth disposal of Pygame resources
+                sys.exit()
+            
         # Clear the screen
         screen.fill("black")# Fill with black, or whatever your background color is
 

@@ -1,0 +1,19 @@
+Ah, wanting to upgrade your spaceship's appearance, are we? A noble quest indeed! Replacing your polygon ship with a fancy PNG image is certainly possible. Let's break this down into a few steps:
+
+First, you'll need to load your PNG image. Pygame has a function for this:
+ship_image = pygame.image.load("path/to/your/ship_image.png").convert_alpha()
+Copy icon
+You might need to resize the image to fit your game's scale:
+ship_image = pygame.transform.scale(ship_image, (width, height))
+Copy icon
+In your Player class's draw method, instead of drawing a polygon, you'll want to blit the image:
+def draw(self, surface):
+    rotated_image = pygame.transform.rotate(ship_image, self.angle)
+    new_rect = rotated_image.get_rect(center=self.position)
+    surface.blit(rotated_image, new_rect.topleft)
+Copy icon
+Now, here's a question for you: Why do you think we might need to rotate the image in the draw method? What could happen if we didn't?
+
+
+
+
