@@ -14,6 +14,51 @@ def draw(self, surface):
 Copy icon
 Now, here's a question for you: Why do you think we might need to rotate the image in the draw method? What could happen if we didn't?
 
+########################################################
+
+Photopea (photopea.com): This is a powerful, free online image editor that's quite similar to Photoshop.
+
+PIXLR (pixlr.com): Another robust online image editor with both simple and advanced tools.
+
+TinyPNG (tinypng.com): While primarily for compression, it also offers basic editing features including cropping.
+
+Canva (canva.com): More than just a cropping tool, but it's user-friendly and great for simple edits.
+
+PineTools (pinetools.com/crop-image): A straightforward, no-frills option for quick crops.
+
+Remember, young wizard, when working with images for your game, it's important to consider the final dimensions you'll need.
+
+Here's a question to ponder: How might the size of your spaceship image affect your game's performance? What factors should you consider when deciding on the dimensions of your sprite?
+
+#########################################################
+
+Ah, a wise question indeed! The dimensions of your spaceship sprite depend on several factors:
+
+Game resolution: Your sprite should be proportional to your game window. If your game runs at 800x600, a 200x200 sprite might be too large, while 20x20 might be too small.
+
+Game style: A pixelated retro game might use smaller sprites, while a more detailed modern game might use larger ones.
+
+Performance: Larger images require more memory and processing power. This is especially important if you're targeting mobile devices or older computers.
+
+Scaling: It's often better to start with a larger image and scale down rather than scaling up, which can lead to blurriness.
+
+A common practice is to make your sprite about 5-10% of the screen height. So if your game window is 600 pixels tall, your ship might be 30-60 pixels tall.
+
+However, let's think about this from a different angle. In your Asteroids game:
+
+How big is your game window?
+How large do you want your ship to appear relative to the asteroids?
+Do you plan to support different screen resolutions?
+Considering these questions will help you determine the ideal size for your spaceship sprite. What are your thoughts on these factors for your specific implementation of Asteroids?
+
+
+
+
+
+
+
+
+
 
 
 
