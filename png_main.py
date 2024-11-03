@@ -3,7 +3,7 @@ import pygame
 import sys
 
 from constants import *
-from player import Player
+from png_player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
 
@@ -13,10 +13,10 @@ def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
     
-    #load png image for space ship 21 -10 
-    ship_image = pygame.image.load('/home/mpeckus/game_project/rocket.png').convert_alpha()
-    #resize image to fit game scale 21 - 10
-    ship_image = pygame.transform.scale(ship_image, (90, 120))
+    #load png image space ship
+    player_image = pygame.image.load('/home/mpeckus/game_project/ufo.png') .convert_alpha()
+    #resize image to fit game scale
+    player_image = pygame.transform.scale(player_image, (90, 120))
 
     updatable = pygame.sprite.Group() # Objects that can be updated
     drawable = pygame.sprite.Group()  # Objects that can be drawn
@@ -30,12 +30,11 @@ def main():
     Player.containers = (updatable, drawable)#the containers for the Player class
     
     #Player class values imported from constants.py
-    #ship image on 21 - 10
-    player = Player(SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2, ship_image)
+    #ship image png file
+    player = Player(SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2, player_image, angle=0)
 
     dt = 0
 
-    
     while True:
         # handle events
         for event in pygame.event.get():
