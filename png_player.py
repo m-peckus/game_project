@@ -16,8 +16,10 @@ class Player(CircleShape):
         self.rotation = 180
 
     def draw(self, screen):
-        rotated_image = pygame.transform.rotate(self.image, -self.angle)
+            #Rotate the image
+        rotated_image = pygame.transform.rotate(self.image, -self.angle) #negative for Pygame rotation
         rotated_rect = rotated_image.get_rect(center=self.position)
+            #Draw rotated image
         screen.blit(rotated_image, rotated_rect)
     
     def rotate(self, dt):

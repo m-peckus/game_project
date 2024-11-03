@@ -11,6 +11,9 @@ from asteroidfield import AsteroidField
 def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+        #New line
+    pygame.display.set_caption('Game Over')
+    Black = (0, 0, 0)
     clock = pygame.time.Clock()
     
     #load png image space ship
@@ -41,22 +44,23 @@ def main():
             if event.type == pygame.QUIT:
                 return
                
-
         # iterates over each sprite in the updatable group, manually calling the update method on each sprite with the same dt argument.
         for sprite in updatable:
             sprite.update(dt)
         
         for sprite in asteroids:
             if sprite.collides_with(player):
+                    #New line
+                screen.fill(Black)
                 #Initialize pygame font
                 pygame.font.init()
                 #create a Font object
-                font = pygame.font.Font(None, 36)#None for default font, 36 for size
+                font = pygame.font.Font(None, 40)#None for default font, 40 for size
                 #Render the message
                 text_surface = font.render('Captain! You just crashed :(', True, (255, 255, 255))# White color
-                screen.blit(text_surface, (50,50))# Position the text at (50, 50) on the screen
+                screen.blit(text_surface, (SCREEN_WIDTH / 2.6, SCREEN_HEIGHT / 2))# Position the text at x and y axis on the screen
                 pygame.display.flip()# Update the screen
-                pygame.time.wait(1500)  # Wait for 1500 milliseconds (1.5 seconds)
+                pygame.time.wait(4000)  # Wait for 4000 milliseconds (4 seconds)
                 #sys.exit()
                 print("Game over!")
                 pygame.quit() #ensure a smooth disposal of Pygame resources
