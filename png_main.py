@@ -1,56 +1,72 @@
 #file is created to experiment with png object loading as game feature
-import pygame
-import sys
+import sys #interact with the Python runtime environment
+import pygame #import pygame library
 
-from constants import *
-from png_player import Player
-from asteroid import Asteroid
-from asteroidfield import AsteroidField
+from constants import * #import constants
+from png_player import Player #import Player class
+from asteroid import Asteroid #import Adsteroid class(handles the properties and behavior of individual asteroids)
+from asteroidfield import AsteroidField #responsible for managing a collection or field of asteroids
+from png_shot import Shot #import Shot class
 
-
+    # main function to initialize the game, set up the environment,start the main game loop
 def main():
-    pygame.init()
+    pygame.init() #This function initializes all imported pygame modules
+        # screen creates the main display surface
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-        #New line
-    pygame.display.set_caption('Game Over')
-    Black = (0, 0, 0)
-    clock = pygame.time.Clock()
+         
+    pygame.display.set_caption('Flying Saucer Game')# sets the title of the window
+    Black = (0, 0, 0) # use in drawing operations, such as filling the screen background.
+    clock = pygame.time.Clock() # creates a Clock object used to control the frame rate of the game
     
-    #load png image space ship
+    # loads an image file
     player_image = pygame.image.load('/home/mpeckus/game_project/ufo.png') .convert_alpha()
-    #resize image to fit game scale
+    #resizes the image to fit game scale
     player_image = pygame.transform.scale(player_image, (90, 120))
 
-    updatable = pygame.sprite.Group() # Objects that can be updated
-    drawable = pygame.sprite.Group()  # Objects that can be drawn
-    asteroids = pygame.sprite.Group() # asteroid objects
-
-
-    Asteroid.containers = (asteroids, updatable, drawable)#the container for the Asteroid class
-    AsteroidField.containers = updatable#the container for the AsteroidField class
-    asteroid_field = AsteroidField()
-
-    Player.containers = (updatable, drawable)#the containers for the Player class
     
-    #Player class values imported from constants.py
-    #ship image png file
+        #groups of game objects to perform batch operations on multiple sprites at once
+    updatable = pygame.sprite.Group() # Objects that can be updated  in terms of their state or behavior each frame (e.g., position, velocity).
+    drawable = pygame.sprite.Group()  # Hold all objects that need to be rendered to the screen each frame
+    asteroids = pygame.sprite.Group() # Allows to update and draw all asteroids through group operations, rather than addressing each asteroid individually
+  
+    shots = pygame.sprite.Group() # manages bullet objects, instances of Shot class in png_shot.py allowing for centralized updates and rendering.
+
+
+    Asteroid.containers = (asteroids, updatable, drawable)#the container for the Asteroid class. Any instance of Asteroid will be automatically added to these groups when it is created.
+
+    Shot.containers = (shots, updatable, drawable)#container for Shot class. Any instance will be added here
+
+    AsteroidField.containers = updatable#the container for the AsteroidField class. Instances of AsteroidField will be automatically added to the updatable group.
+
+    asteroid_field = AsteroidField() #creates an instance of the AsteroidField class, which is now part of the updatable group due to the previous line. Manages a collection of asteroid objects
+
+    Player.containers = (updatable, drawable)#the containers for the Player class. Each Player instance will be updated and drawn.
+    
+    # creating a new object player from the Player class from png_player.py with initial position at the center of the screen
+    #player_image is a visual representation of the player
     player = Player(SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2, player_image, angle=0)
 
-    dt = 0
+    dt = 0 # time elapsed between frames
 
+    #game loop, it will continue running as long as the game is active 
     while True:
-        # handle events
+        # iterates over all events currently in the event queue such as player interactions and other events, like quitting the game or responding to keyboard input
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-               
+
+        # iterates over each shot object within the shots_group
+        for shot in shots:
+            shot.update(dt)#the update method of each individual shot is called, with dt passed as a parameter
+            shot.draw(screen)# draw method is called, screen passed as parameter
+
         # iterates over each sprite in the updatable group, manually calling the update method on each sprite with the same dt argument.
         for sprite in updatable:
             sprite.update(dt)
         
         for sprite in asteroids:
             if sprite.collides_with(player):
-                    #New line
+                #screen turns black
                 screen.fill(Black)
                 #Initialize pygame font
                 pygame.font.init()

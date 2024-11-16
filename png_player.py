@@ -1,9 +1,8 @@
-#file is created to experiment with png object loading as game feature
 import pygame
 import math
 from circleshape import CircleShape
 from constants import *
-
+from png_shot import Shot
 
 class Player(CircleShape):
     def __init__(self, x, y, image, angle=0):
@@ -29,7 +28,8 @@ class Player(CircleShape):
     def move(self, dt):
         forward = pygame.Vector2(0, -1).rotate(self.angle)
         self.position += forward * PLAYER_SPEED * dt
-
+    
+    
     def update(self, dt):
         keys = pygame.key.get_pressed()#check which keys are currently being held down
         
@@ -44,4 +44,15 @@ class Player(CircleShape):
 
         if keys[pygame.K_s]:# if s is pressed
             self.move(-dt)
+
+        if keys[pygame.K_SPACE]:# if spacebar is pressed
+            self.shoot()
+
+    #shoot bullets
+    def shoot(self):
+        shot = Shot(self.position.x, self.position.y)
+        shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED  
+        print("Rotation", self.rotation)   
+        #print("Base Vector", pygame.Vector2(0, 1))
+        print("Velocity", shot.velocity)
 
