@@ -21,14 +21,13 @@ class Player(CircleShape):
             #Draw rotated image
         screen.blit(rotated_image, rotated_rect)
     
-    def rotate(self, dt):
-        self.rotation += PLAYER_TURN_SPEED * dt 
-        self.angle += PLAYER_TURN_SPEED * dt
+    #def rotate(self, dt): #method is inactive
+        #self.rotation += PLAYER_TURN_SPEED * dt 
+        #self.angle += PLAYER_TURN_SPEED * dt
 
     def move(self, dt):
         forward = pygame.Vector2(0, -1).rotate(self.angle)
         self.position += forward * PLAYER_SPEED * dt
-    
     
     def update(self, dt):
         keys = pygame.key.get_pressed()#check which keys are currently being held down
@@ -47,12 +46,28 @@ class Player(CircleShape):
 
         if keys[pygame.K_SPACE]:# if spacebar is pressed
             self.shoot()
+            #self.rotate_bullet(dt)
 
     #shoot bullets
     def shoot(self):
+        
+        adjusted_angle = self.angle - 90
+
+        velocity = pygame.math.Vector2(
+            PLAYER_SHOOT_SPEED * math.cos(math.radians(adjusted_angle)), 
+            PLAYER_SHOOT_SPEED * math.sin(math.radians(adjusted_angle)))
+
         shot = Shot(self.position.x, self.position.y)
-        shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED  
-        print("Rotation", self.rotation)   
-        #print("Base Vector", pygame.Vector2(0, 1))
-        print("Velocity", shot.velocity)
+        shot.velocity = velocity
+
+        #velocity_x = PLAYER_SHOOT_SPEED * math.cos(math.radians(self.angle))
+        #velocity_y = PLAYER_SHOOT_SPEED * math.sin(math.radians(self.angle))
+        #ls
+        #shot.velocity = (velocity_x, velocity_y)
+        
+        """
+        shot = Shot(self.position.x, self.position.y)
+        shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
+        """
+        
 
