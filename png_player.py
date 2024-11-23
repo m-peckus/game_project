@@ -5,7 +5,7 @@ from constants import *
 from png_shot import Shot
 
 class Player(CircleShape):
-    def __init__(self, x, y, image, angle=0):
+    def __init__(self, x, y, image, angle=0, timer=0):
         super().__init__(x, y, PLAYER_RADIUS) #radius value set
         self.position = pygame.Vector2(x, y)
         self.x = x
@@ -13,6 +13,7 @@ class Player(CircleShape):
         self.image = image
         self.angle = 0 #Initial angle in degrees
         self.rotation = 180
+        self.timer = 0 #Limit shoot frequency
 
     def draw(self, screen):
             #Rotate the image
@@ -31,7 +32,8 @@ class Player(CircleShape):
     
     def update(self, dt):
         keys = pygame.key.get_pressed()#check which keys are currently being held down
-        
+        self.timer -= dt
+
         if keys[pygame.K_a]:# if a is pressed
             self.angle -= 5
             
@@ -45,13 +47,21 @@ class Player(CircleShape):
             self.move(-dt)
 
         if keys[pygame.K_SPACE]:# if spacebar is pressed
-            self.shoot()
+            if(self.timer <= 0):
+                self.shoot()
+            
             #self.rotate_bullet(dt)
 
     #shoot bullets
     def shoot(self):
         
         adjusted_angle = self.angle - 90
+        #for testing, delete later
+        print('self.timer original', self.timer)
+        self.timer = PLAYER_SHOOT_COOLDOWN
+        #for testing, delete later
+        print('self.timer modified', self.timer)
+
 
         velocity = pygame.math.Vector2(
             PLAYER_SHOOT_SPEED * math.cos(math.radians(adjusted_angle)), 
