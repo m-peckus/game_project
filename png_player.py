@@ -5,7 +5,7 @@ from constants import *
 from png_shot import Shot
 
 class Player(CircleShape):
-    def __init__(self, x, y, image, angle=0):
+    def __init__(self, x, y, image, angle=0, timer=0):
         super().__init__(x, y, PLAYER_RADIUS) #radius value set
         self.position = pygame.Vector2(x, y)
         self.x = x
@@ -13,6 +13,7 @@ class Player(CircleShape):
         self.image = image
         self.angle = 0 #Initial angle in degrees
         self.rotation = 180
+        self.timer = 0 #Limit shoot frequency
 
     def draw(self, screen):
             #Rotate the image
@@ -20,10 +21,6 @@ class Player(CircleShape):
         rotated_rect = rotated_image.get_rect(center=self.position)
             #Draw rotated image
         screen.blit(rotated_image, rotated_rect)
-    
-    #def rotate(self, dt): #method is inactive
-        #self.rotation += PLAYER_TURN_SPEED * dt 
-        #self.angle += PLAYER_TURN_SPEED * dt
 
     def move(self, dt):
         forward = pygame.Vector2(0, -1).rotate(self.angle)
@@ -31,7 +28,8 @@ class Player(CircleShape):
     
     def update(self, dt):
         keys = pygame.key.get_pressed()#check which keys are currently being held down
-        
+        self.timer -= dt
+
         if keys[pygame.K_a]:# if a is pressed
             self.angle -= 5
             
@@ -45,13 +43,14 @@ class Player(CircleShape):
             self.move(-dt)
 
         if keys[pygame.K_SPACE]:# if spacebar is pressed
-            self.shoot()
-            #self.rotate_bullet(dt)
-
+            if(self.timer <= 0):
+                self.shoot()
+            
     #shoot bullets
     def shoot(self):
         
         adjusted_angle = self.angle - 90
+        self.timer = PLAYER_SHOOT_COOLDOWN
 
         velocity = pygame.math.Vector2(
             PLAYER_SHOOT_SPEED * math.cos(math.radians(adjusted_angle)), 
@@ -60,14 +59,5 @@ class Player(CircleShape):
         shot = Shot(self.position.x, self.position.y)
         shot.velocity = velocity
 
-        #velocity_x = PLAYER_SHOOT_SPEED * math.cos(math.radians(self.angle))
-        #velocity_y = PLAYER_SHOOT_SPEED * math.sin(math.radians(self.angle))
-        #ls
-        #shot.velocity = (velocity_x, velocity_y)
-        
-        """
-        shot = Shot(self.position.x, self.position.y)
-        shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
-        """
         
 
