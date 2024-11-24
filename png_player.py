@@ -52,6 +52,7 @@ class Player(CircleShape):
         adjusted_angle = self.angle - 90
         self.timer = PLAYER_SHOOT_COOLDOWN
 
+
         velocity = pygame.math.Vector2(
             PLAYER_SHOOT_SPEED * math.cos(math.radians(adjusted_angle)), 
             PLAYER_SHOOT_SPEED * math.sin(math.radians(adjusted_angle)))
