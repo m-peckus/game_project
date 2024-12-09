@@ -18,3 +18,12 @@ class Asteroid(CircleShape):
         displacement = self.velocity * dt
     # Update the position by adding the displacement
         self.position += displacement
+    
+    #split asteroid if hit by bullet 26/11
+    def split(self):
+        self.kill()
+        if(self.radius <= ASTEROID_MIN_RADIUS):
+            print('small asteroid')
+            return
+        else:
+            print('big asteroid')

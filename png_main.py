@@ -1,11 +1,14 @@
+#!/usr/bin/env python3
+#shebang line to make script executable
+
 #file is created to experiment with png object loading as game feature
 import sys #interact with the Python runtime environment
 import pygame #import pygame library
 
 from constants import * #import constants
 from png_player import Player #import Player class
-from asteroid import Asteroid #import Adsteroid class(handles the properties and behavior of individual asteroids)
-from asteroidfield import AsteroidField #responsible for managing a collection or field of asteroids
+from png_asteroid import Asteroid #import Adsteroid class(handles the properties and behavior of individual asteroids)
+from png_asteroidfield import AsteroidField #responsible for managing a collection or field of asteroids
 from png_shot import Shot #import Shot class
 
     # main function to initialize the game, set up the environment,start the main game loop
@@ -68,7 +71,7 @@ def main():
         for sprite in asteroids:
             for shot in shots:
                 if sprite.collides_with(shot):
-                    sprite.kill()
+                    sprite.split(screen)
                     shot.kill()
 
 

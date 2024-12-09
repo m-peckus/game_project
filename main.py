@@ -1,3 +1,6 @@
+#!/usr/bin/env python3 
+#shebang line to make script executable
+
 import sys
 import pygame
 from constants import *
@@ -40,11 +43,11 @@ def main():
             if asteroid.collides_with(player):
                 print("Game over!")
                 sys.exit()
-
+        # bullet & asteroid colision
         for asteroid in asteroids:
             for shot in shots:
                 if asteroid.collides_with(shot):
-                    asteroid.kill()
+                    asteroid.split()
                     shot.kill()
 
         screen.fill("black")
