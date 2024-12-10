@@ -1,111 +1,116 @@
 #!/usr/bin/env python3
-#shebang line to make script executable
+# Shebang line to make the script executable
 
-#file is created to experiment with png object loading as game feature
-import sys #interact with the Python runtime environment
-import pygame #import pygame library
+# Import necessary modules and classes
+import sys # Interact with the Python runtime environment
+import pygame # Import pygame for game development
+from constants import * # Import constants (e.g., screen size, dimension variables, speed variables)
+from png_player import Player # Player class for spaceship behavior
+from png_asteroid import Asteroid # Asteroid class for asteroid behavior
+from png_asteroidfield import AsteroidField # Manages a collection of asteroids
+from png_shot import Shot # Shot class for bullets fired by the player
 
-from constants import * #import constants
-from png_player import Player #import Player class
-from png_asteroid import Asteroid #import Adsteroid class(handles the properties and behavior of individual asteroids)
-from png_asteroidfield import AsteroidField #responsible for managing a collection or field of asteroids
-from png_shot import Shot #import Shot class
-
-    # main function to initialize the game, set up the environment,start the main game loop
+# Main function: Initializes the game and starts the main game loop
 def main():
-    pygame.init() #This function initializes all imported pygame modules
-        # screen creates the main display surface
+    pygame.init() # Initializes pygame  module
+
+    # Set up the display    
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    pygame.display.set_caption('Flying Saucer Game') # Set window title 
          
-    pygame.display.set_caption('Flying Saucer Game')# sets the title of the window
-    Black = (0, 0, 0) # use in drawing operations, such as filling the screen background.
-    clock = pygame.time.Clock() # creates a Clock object used to control the frame rate of the game
+    # Define basic game settings
+    Black = (0, 0, 0) # Background color 
+    clock = pygame.time.Clock() # Control frame rate
     
-    # loads an image file
-    player_image = pygame.image.load('/home/mpeckus/game_project/ufo.png') .convert_alpha()
-    #resizes the image to fit game scale
-    player_image = pygame.transform.scale(player_image, (90, 120))
+    # Load and scale player image
+    player_image = pygame.image.load('/home/mpeckus/game_project/ufo.png') .convert_alpha() # Load spaceship image
+    player_image = pygame.transform.scale(player_image, (90, 120)) # Resize image
 
+    # Create sprite groups for efficient updates and rendering    
+    updatable = pygame.sprite.Group() # Sprites with behavior to update
+    drawable = pygame.sprite.Group()  # Sprites to be drawn
+    asteroids = pygame.sprite.Group() # Group for all asteroids
+    shots = pygame.sprite.Group() # Group for bullets
     
-        #groups of game objects to perform batch operations on multiple sprites at once
-    updatable = pygame.sprite.Group() # Objects that can be updated  in terms of their state or behavior each frame (e.g., position, velocity).
-    drawable = pygame.sprite.Group()  # Hold all objects that need to be rendered to the screen each frame
-    asteroids = pygame.sprite.Group() # Allows to update and draw all asteroids through group operations, rather than addressing each asteroid individually
-  
-    shots = pygame.sprite.Group() # manages bullet objects, instances of Shot class in png_shot.py allowing for centralized updates and rendering.
+    # Assign sprite groups to relevant classes
+    Asteroid.containers = (asteroids, updatable, drawable) # Asteroids added to these groups 
+    Shot.containers = (shots, updatable, drawable) # Shots added to these groups 
+    AsteroidField.containers = updatable # Asteroid field updates itself
+    Player.containers = (updatable, drawable) # Player added to drawable and updatable groups 
 
+    # Create asteroid field and player instance
+    asteroid_field = AsteroidField() # Spawn a field of asteroids
+    player = Player(SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2, player_image, angle=0) # Spawn player in the center
 
-    Asteroid.containers = (asteroids, updatable, drawable)#the container for the Asteroid class. Any instance of Asteroid will be automatically added to these groups when it is created.
+    dt = 0 # Time between frames for smooth movement
 
-    Shot.containers = (shots, updatable, drawable)#container for Shot class. Any instance will be added here
-
-    AsteroidField.containers = updatable#the container for the AsteroidField class. Instances of AsteroidField will be automatically added to the updatable group.
-
-    asteroid_field = AsteroidField() #creates an instance of the AsteroidField class, which is now part of the updatable group due to the previous line. Manages a collection of asteroid objects
-
-    Player.containers = (updatable, drawable)#the containers for the Player class. Each Player instance will be updated and drawn.
-    
-    # creating a new object player from the Player class from png_player.py with initial position at the center of the screen
-    #player_image is a visual representation of the player
-    player = Player(SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2, player_image, angle=0)
-
-    dt = 0 # time elapsed between frames
-
-    #game loop, it will continue running as long as the game is active 
+    # Main game loop
     while True:
-        # iterates over all events currently in the event queue such as player interactions and other events, like quitting the game or responding to keyboard input
+        # Handle events (e.g., quit or key presses)
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                return
-
-        # iterates over each shot object within the shots_group
+            if event.type == pygame.QUIT: # If the player closes the window 
+                return # Exit the game loop
+                
+        # Update and draw all bullets
         for shot in shots:
-            shot.update(dt)#the update method of each individual shot is called, with dt passed as a parameter
-            shot.draw(screen)# draw method is called, screen passed as parameter
+            shot.update(dt) # Update bullet position
+            shot.draw(screen) # Draw bullet to the screen
 
-        # iterates over each sprite in the updatable group, manually calling the update method on each sprite with the same dt argument.
+        # Update all updatable sprites
         for sprite in updatable:
             sprite.update(dt)
         
-        #asteroid & bullet collision
+        # Check collision between bullets and asteroids
         for sprite in asteroids:
             for shot in shots:
-                if sprite.collides_with(shot):
-                    sprite.split(screen)
-                    shot.kill()
+                if sprite.collides_with(shot): # If a bullet hits an asteroid
+                    sprite.split(screen) # Split the asteroid into smaller pieces
+                    shot.kill() # Remove the bullet
 
-
+        # Check collisions between asteroids and the player
         for sprite in asteroids:
             if sprite.collides_with(player):
-                #screen turns black
-                screen.fill(Black)
-                #Initialize pygame font
-                pygame.font.init()
-                #create a Font object
-                font = pygame.font.Font(None, 40)#None for default font, 40 for size
-                #Render the message
-                text_surface = font.render('Captain! You just crashed :(', True, (255, 255, 255))# White color
-                screen.blit(text_surface, (SCREEN_WIDTH / 2.6, SCREEN_HEIGHT / 2))# Position the text at x and y axis on the screen
-                pygame.display.flip()# Update the screen
-                pygame.time.wait(4000)  # Wait for 4000 milliseconds (4 seconds)
-                #sys.exit()
+                # Display crash message
+                screen.fill(Black) # Fill screen with black
+                pygame.font.init() # Initialize font module
+                font = pygame.font.Font(None, 40) # Create font object
+                text_surface = font.render('Captain! You just crashed :(', True, (255, 255, 255)) # Create crash message
+                screen.blit(text_surface, (SCREEN_WIDTH / 2.6, SCREEN_HEIGHT / 2)) # Position text
+                pygame.display.flip() # Update the display
+                pygame.time.wait(4000) # Wait 4 seconds before exiting
                 print("Game over!")
-                pygame.quit() #ensure a smooth disposal of Pygame resources
-                sys.exit()
+                pygame.quit() # Clean up pygame resources
+                sys.exit() # Exit the script
             
-        # Clear the screen
-        screen.fill("black")# Fill with black, or whatever your background color is
+        # Clear the screen for the next frame
+        screen.fill("black") # Fill screen with background color
 
-        # iterates over each sprite in the drawable group, manually calling the draw method on each sprite with the same screen argument.
+        # Draw all drawable sprites
         for sprite in drawable:
             sprite.draw(screen)
             
-        # Flip the display
+        # Update the display
         pygame.display.flip()
         
-        # calculate delta time 
-        dt = clock.tick(60) / 1000  # limit the framerate to 60 FPS
+        # Calculate time between frames to maintain consistent frame rate
+        dt = clock.tick(60) / 1000  # Limit the framerate to 60 FPS, calculate delta time
 
+# Run the game when the script is executed
 if __name__ == "__main__":
     main()
+
+""" 
+Key Blocks with Descriptions:
+
+1. Imports: Import necessary modules and game-specific classes.
+2. Game Initialization: Initialize pygame, set up display, and configure game settings.
+3. Sprite Groups: Organize game objects into groups for batch updates and rendering.
+4. Game Loop:
+    * Handle events(e.g, quit the game).
+    * Update and draw bullets and sprites.
+    * Check collisions and handle asteroid splitting or game over.
+    * Clear the screen and redraw objects for the next frame.
+5. Exit Conditions: Handle clean game exit and resource cleanup.
+
+"""
     
