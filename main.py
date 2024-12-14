@@ -5,10 +5,10 @@
 import sys # Interact with the Python runtime environment
 import pygame # Import pygame for game development
 from constants import * # Import constants (e.g., screen size, dimension variables, speed variables)
-from png_player import Player # Player class for spaceship behavior
-from png_asteroid import Asteroid # Asteroid class for asteroid behavior
-from png_asteroidfield import AsteroidField # Manages a collection of asteroids
-from png_shot import Shot # Shot class for bullets fired by the player
+from player import Player # Player class for spaceship behavior
+from asteroid import Asteroid # Asteroid class for asteroid behavior
+from asteroidfield import AsteroidField # Manages a collection of asteroids
+from shot import Shot # Shot class for bullets fired by the player
 
 # Main function: Initializes the game and starts the main game loop
 def main():

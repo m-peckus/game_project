@@ -2,7 +2,7 @@ import pygame # Import Pygame library
 import math # Import math for trigonometric functions
 from circleshape import CircleShape # Import CircleShape as the base class for the Player
 from constants import * # Import constants (e.g., PLAYER_SPEED,PLAYER_RADIUS)
-from png_shot import Shot # Import Shot class for shooting bullets
+from shot import Shot # Import Shot class for shooting bullets
 
 class Player(CircleShape): # Player class inherits from CircleShape
     def __init__(self, x, y, image, angle=0, timer=0):

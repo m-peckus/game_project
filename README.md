@@ -60,6 +60,8 @@ Ensure you have Python3 installed and the required dependencies (pygame) set up 
 
 -  main.py: Game loop and core mechanics.
 
+-  circleshape.py: CircleShape class serves as the base class for various game objects in this project, such as the Player, Asteroid, and Shot
+
 -  player.py: Spaceship class with movement, shooting, and screen wrapping logic.
 
 -  asteroid.py: Asteroid class with splitting and movement mechanics.

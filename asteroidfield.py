@@ -1,6 +1,6 @@
 import pygame # Import Pygame for game development
 import random # Import random for generating random values
-from png_asteroid import Asteroid # Import Asteroid class for creating asteroid objects
+from asteroid import Asteroid # Import Asteroid class for creating asteroid objects
 from constants import * # Import constants for reusable settings and configurations
 
 # Class to manage the spawning and behavior of asteroids in the game
