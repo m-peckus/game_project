@@ -40,33 +40,46 @@ concepts while practicing the use of Pygame for game development.
  pip install pygame
 
  3. Run the game:
+
+The main.py file contains the core game logic and mechanics. To run the game directly from the command line, ensure the following prerequisites are met:
+
+Bash
+
+chmod +x main.py
+
+Execute the file using:
+
+Bash
+
+./main.py
  
- python main.py 
+Ensure you have Python3 installed and the required dependencies (pygame) set up before running the game.
+
 
   PROJECT STRUCTURE
 
- main.py: Game loop and core mechanics.
+-  main.py: Game loop and core mechanics.
 
- player.py: Spaceship class with movement, shooting, and screen wrapping logic.
+-  player.py: Spaceship class with movement, shooting, and screen wrapping logic.
 
- asteroid.py: Asteroid class with splitting and movement mechanics.
+-  asteroid.py: Asteroid class with splitting and movement mechanics.
  
- asteroidfield.py: Spawner and manager for asteroids.
+-  asteroidfield.py: Spawner and manager for asteroids.
 
- shot.py: Bullet (shot) class for firing at asteroids.
+-  shot.py: Bullet (shot) class for firing at asteroids.
  
- constants.py: Game-wide constants for screen size, speeds, and settings
+-  constants.py: Game-wide constants for screen size, speeds, and settings
 
 
  LEARNING HIGHLIGHTS
 
  This project demonstrates:
  
- Inheritance: The Asteroid class inherits from a base CircleShape class for reusability.
+-  Inheritance: The Asteroid class inherits from a base CircleShape class for reusability.
 
- Encapsulation: Each game element (spaceship, asteroids, bullets) is encapsulated in its own class.
+-  Encapsulation: Each game element (spaceship, asteroids, bullets) is encapsulated in its own class.
 
- Polymorphism: Shared methods like update and draw behave differently for each class.
+-  Polymorphism: Shared methods like update and draw behave differently for each class.
 
  Game Development Concepts:
 
