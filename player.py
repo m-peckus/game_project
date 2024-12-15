@@ -1,4 +1,5 @@
 import pygame # Import Pygame library
+from pygame import mixer # Import Pygame mixer
 import math # Import math for trigonometric functions
 from circleshape import CircleShape # Import CircleShape as the base class for the Player
 from constants import * # Import constants (e.g., PLAYER_SPEED,PLAYER_RADIUS)
@@ -96,6 +97,15 @@ class Player(CircleShape): # Player class inherits from CircleShape
         # Assign the calculated velocity to the bullet
         shot = Shot(self.position.x, self.position.y)
         shot.velocity = velocity
+
+        # Initialize Pygame mixer
+        pygame.mixer.init()
+        # Load sound file
+        shot_sound = pygame.mixer.Sound('/home/mpeckus/game_project/blaster_shot2.wav')
+        # Playe the sound file
+        shot_sound.play()
+
+        
 
         
 
