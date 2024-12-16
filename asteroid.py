@@ -1,5 +1,6 @@
 import pygame
-import random 
+from pygame import mixer # Import Pygame mixer
+import random # Import random module
 from constants import * # Import game constants
 from circleshape import CircleShape # Parent class for circular shapes
 
@@ -20,8 +21,15 @@ class Asteroid(CircleShape):
     def split(self, screen):
         # Remove asteroid after being hit by a bullet
         self.kill()
-        # If asteroid is too small stop further spliting
+       
         if(self.radius <= ASTEROID_MIN_RADIUS):
+            # Initialize Pygame mixer
+            pygame.mixer.init()
+            # Load sound file
+            shot_sound = pygame.mixer.Sound('/home/mpeckus/game_project/Explosion_short.wav')
+            # Playe the sound file
+            shot_sound.play()
+        # If asteroid is too small stop further spliting
             return
         else:
             # Calculate new velocities for split asteroids
