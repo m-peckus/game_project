@@ -10,6 +10,7 @@ from asteroid import Asteroid # Asteroid class for asteroid behavior
 from asteroidfield import AsteroidField # Manages a collection of asteroids
 from shot import Shot # Shot class for bullets fired by the player
 
+
 # Main function: Initializes the game and starts the main game loop
 def main():
     pygame.init() # Initializes pygame  module
@@ -44,6 +45,9 @@ def main():
 
     dt = 0 # Time between frames for smooth movement
 
+    # Initialize score
+    score = 0
+    score_font = pygame.font.Font(None, 36) # Default font, size 36
     # Main game loop
     while True:
         # Handle events (e.g., quit or key presses)
@@ -65,6 +69,13 @@ def main():
             for shot in shots:
                 if sprite.collides_with(shot): # If a bullet hits an asteroid
                     sprite.split(screen) # Split the asteroid into smaller pieces
+                    # Check asteroid radius for score points
+                    if sprite.radius >= ASTEROID_MAX_RADIUS:
+                        score += 5
+                    elif sprite.radius == ASTEROID_MEDIUM_RADIUS:
+                        score += 10
+                    else:
+                        score += 15
                     shot.kill() # Remove the bullet
 
         # Check collisions between asteroids and the player
@@ -74,7 +85,7 @@ def main():
                 screen.fill(Black) # Fill screen with black
                 pygame.font.init() # Initialize font module
                 font = pygame.font.Font(None, 40) # Create font object
-                text_surface = font.render('Captain! You just crashed :(', True, (255, 255, 255)) # Create crash message
+                text_surface = font.render(f'Captain! You just crashed :( Your score: {score}', True, (255, 255, 255)) # Create crash message
                 screen.blit(text_surface, (SCREEN_WIDTH / 2.6, SCREEN_HEIGHT / 2)) # Position text
                 pygame.display.flip() # Update the display
                 pygame.time.wait(4000) # Wait 4 seconds before exiting
@@ -88,7 +99,11 @@ def main():
         # Draw all drawable sprites
         for sprite in drawable:
             sprite.draw(screen)
-            
+
+        # Display the score
+        score_text = score_font.render(f"Score: {score}", True, (255, 255, 255))  
+        screen.blit(score_text, (10, 10))
+
         # Update the display
         pygame.display.flip()
         

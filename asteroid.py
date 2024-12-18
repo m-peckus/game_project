@@ -21,14 +21,14 @@ class Asteroid(CircleShape):
     def split(self, screen):
         # Remove asteroid after being hit by a bullet
         self.kill()
-       
-        if(self.radius <= ASTEROID_MIN_RADIUS):
-            # Initialize Pygame mixer
-            pygame.mixer.init()
-            # Load sound file
-            shot_sound = pygame.mixer.Sound('/home/mpeckus/game_project/Explosion_short.wav')
-            # Playe the sound file
-            shot_sound.play()
+        # Initialize Pygame mixer
+        pygame.mixer.init()
+        # Load sound file
+        shot_sound = pygame.mixer.Sound('/home/mpeckus/game_project/asteroid_blast.wav')
+        # Playe the sound file
+        shot_sound.play()
+        if(self.radius <= ASTEROID_MIN_RADIUS):# If small asteroid hit
+           
         # If asteroid is too small stop further spliting
             return
         else:
