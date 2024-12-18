@@ -25,7 +25,7 @@ class Asteroid(CircleShape):
         pygame.mixer.init()
         # Load sound file
         shot_sound = pygame.mixer.Sound('/home/mpeckus/game_project/asteroid_blast.wav')
-        # Playe the sound file
+        # Play the sound file if asteroid hit by a bullet
         shot_sound.play()
         if(self.radius <= ASTEROID_MIN_RADIUS):# If small asteroid hit
            
