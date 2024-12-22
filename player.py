@@ -101,7 +101,7 @@ class Player(CircleShape): # Player class inherits from CircleShape
         # Initialize Pygame mixer
         pygame.mixer.init()
         # Load sound file
-        shot_sound = pygame.mixer.Sound('/home/mpeckus/game_project/bullet_shot.wav')
+        shot_sound = pygame.mixer.Sound('/home/mpeckus/game_project/assets/game_sounds/bullet_shot.wav')
         # Playe the sound file
         shot_sound.play()
 

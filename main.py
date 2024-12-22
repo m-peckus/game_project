@@ -85,8 +85,7 @@ def main():
         # Check collisions between asteroids and the player
         for sprite in asteroids:
             if sprite.collides_with(player):
-                try:
-                    # Load custom font file
+                try:# Load custom font file
                     # Display crash message
                     screen.fill(Black) # Fill screen with black
                     pygame.font.init() # Initialize font module
