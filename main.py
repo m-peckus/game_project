@@ -47,7 +47,11 @@ def main():
 
     # Initialize score
     score = 0
-    score_font = pygame.font.Font(None, 36) # Default font, size 36
+    try:
+        score_font = pygame.font.Font('/home/mpeckus/game_project/assets/fonts_folder/game_fonts.ttf', 32) # Custom font, size 32
+    except FileNotFoundError:
+        print('Custom font not found. Falling back to default font')
+        score_font = pygame.font.Font(None, 36) # Default font, size 36
     # Main game loop
     while True:
         # Handle events (e.g., quit or key presses)
@@ -81,12 +85,18 @@ def main():
         # Check collisions between asteroids and the player
         for sprite in asteroids:
             if sprite.collides_with(player):
-                # Display crash message
-                screen.fill(Black) # Fill screen with black
-                pygame.font.init() # Initialize font module
-                font = pygame.font.Font(None, 40) # Create font object
+                try:
+                    # Load custom font file
+                    # Display crash message
+                    screen.fill(Black) # Fill screen with black
+                    pygame.font.init() # Initialize font module
+                    font = pygame.font.Font('/home/mpeckus/game_project/assets/fonts_folder/game_fonts.ttf', 30) # Custom font object, size 32
+                except FileNotFoundError:# Custom font not found
+                    print('Custom font not found. Falling back to default font')
+                    font = pygame.font.Font(None, 36) # Default font, size 36
+
                 text_surface = font.render(f'Captain! You just crashed :( Your score: {score}', True, (255, 255, 255)) # Create crash message
-                screen.blit(text_surface, (SCREEN_WIDTH / 2.6, SCREEN_HEIGHT / 2)) # Position text
+                screen.blit(text_surface, (SCREEN_WIDTH / 7, SCREEN_HEIGHT / 2)) # Position text
                 pygame.display.flip() # Update the display
                 pygame.time.wait(4000) # Wait 4 seconds before exiting
                 print("Game over!")
