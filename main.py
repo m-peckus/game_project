@@ -16,6 +16,13 @@ def main():
     pygame.init() # Initializes pygame  module
 
     # Set up the display    
+
+    # Full screen scaling with no borders around
+    #screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+    print('Screen width', SCREEN_WIDTH)
+    print('Screen height', SCREEN_HEIGHT)
+
+    # Dynamic screen scaling with borders around
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption('Flying Saucer Game') # Set window title 
          
@@ -23,9 +30,14 @@ def main():
     Black = (0, 0, 0) # Background color 
     clock = pygame.time.Clock() # Control frame rate
     
+
+    # Calculate player_width ~ 90
+    player_width = int(SCREEN_WIDTH * 0.066)
+    # Calculate player_height ~ 120
+    player_height = int(SCREEN_HEIGHT * 0.157)
     # Load and scale player image
     player_image = pygame.image.load('/home/mpeckus/game_project/ufo.png') .convert_alpha() # Load spaceship image
-    player_image = pygame.transform.scale(player_image, (90, 120)) # Resize image
+    player_image = pygame.transform.scale(player_image, (player_width, player_height)) # Resize image
 
     # Create sprite groups for efficient updates and rendering    
     updatable = pygame.sprite.Group() # Sprites with behavior to update
@@ -47,17 +59,23 @@ def main():
 
     # Initialize score
     score = 0
+    # Dynamically calculate font height. Font height ~32
+    font_height = int(SCREEN_HEIGHT * 0.045)
     try:
-        score_font = pygame.font.Font('/home/mpeckus/game_project/assets/fonts_folder/game_fonts.ttf', 32) # Custom font, size 32
+        score_font = pygame.font.Font('/home/mpeckus/game_project/assets/fonts_folder/game_fonts.ttf', font_height) # Custom font, height 32
     except FileNotFoundError:
         print('Custom font not found. Falling back to default font')
-        score_font = pygame.font.Font(None, 36) # Default font, size 36
+        score_font = pygame.font.Font(None, 36) # Default font, height 36
     # Main game loop
     while True:
         # Handle events (e.g., quit or key presses)
         for event in pygame.event.get():
             if event.type == pygame.QUIT: # If the player closes the window 
                 return # Exit the game loop
+
+            if event.type == pygame.KEYDOWN: # If the player press the key   
+                if event.key == pygame.K_q: # Check if the 'q' key is pressed
+                    return # Exit the game loop
                 
         # Update and draw all bullets
         for shot in shots:
@@ -89,13 +107,13 @@ def main():
                     # Display crash message
                     screen.fill(Black) # Fill screen with black
                     pygame.font.init() # Initialize font module
-                    font = pygame.font.Font('/home/mpeckus/game_project/assets/fonts_folder/game_fonts.ttf', 30) # Custom font object, size 32
+                    font = pygame.font.Font('/home/mpeckus/game_project/assets/fonts_folder/game_fonts.ttf', font_height) # Custom font object, height 32
                 except FileNotFoundError:# Custom font not found
                     print('Custom font not found. Falling back to default font')
                     font = pygame.font.Font(None, 36) # Default font, size 36
 
                 text_surface = font.render(f'Captain! You just crashed :( Your score: {score}', True, (255, 255, 255)) # Create crash message
-                screen.blit(text_surface, (SCREEN_WIDTH / 7, SCREEN_HEIGHT / 2)) # Position text
+                screen.blit(text_surface, (SCREEN_WIDTH / 7, SCREEN_HEIGHT / 2)) # Relative text position
                 pygame.display.flip() # Update the display
                 pygame.time.wait(4000) # Wait 4 seconds before exiting
                 print("Game over!")
@@ -110,8 +128,8 @@ def main():
             sprite.draw(screen)
 
         # Display the score
-        score_text = score_font.render(f"Score: {score}", True, (255, 255, 255))  
-        screen.blit(score_text, (10, 10))
+        score_text = score_font.render(f"Score: {score}", True, (255, 255, 255)) # Score message
+        screen.blit(score_text, (50, 50)) # Score message position
 
         # Update the display
         pygame.display.flip()

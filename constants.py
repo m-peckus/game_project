@@ -1,5 +1,31 @@
-SCREEN_WIDTH = 1280
-SCREEN_HEIGHT = 720
+import pygame
+pygame.init()
+
+
+# Get display info dinamically
+display_info = pygame.display.Info()
+
+# Dynamically calculated variales
+SCREEN_WIDTH = display_info.current_w
+SCREEN_HEIGHT = display_info.current_h
+
+# Previously used static variables
+#SCREEN_WIDTH = 1280 
+#SCREEN_HEIGHT = 720
+
+# For mobile-like resolutions
+#SCREEN_WIDTH = 360
+#SCREEN_HEIGHT = 640
+
+"""
+Simulate various screen sizes by manually setting SCREEN_WIDTH and SCREEN_HEIGHT to different values.
+Test for common resolutions, like:
+1280 x 720
+1920 x 1080
+800 x 600
+Mobile-like resolutions(e.g., 360 X 640)
+
+"""
 
 ASTEROID_MIN_RADIUS = 20
 ASTEROID_MEDIUM_RADIUS = 40
