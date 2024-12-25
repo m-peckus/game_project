@@ -29,15 +29,42 @@ def main():
     # Define basic game settings
     Black = (0, 0, 0) # Background color 
     clock = pygame.time.Clock() # Control frame rate
-    
 
     # Calculate player_width ~ 90
-    player_width = int(SCREEN_WIDTH * 0.066)
+    #player_width = int(SCREEN_WIDTH * 0.07)
+    #player_width = int(SCREEN_WIDTH * 0.07)
+    #print('Player width',player_width)
+
     # Calculate player_height ~ 120
-    player_height = int(SCREEN_HEIGHT * 0.157)
+    #player_height = int(SCREEN_HEIGHT * 0.16666)
+    #player_height = int(player_width / aspect_ratio)
+    #print('Player height',player_height)
+
+
     # Load and scale player image
-    player_image = pygame.image.load('/home/mpeckus/game_project/ufo.png') .convert_alpha() # Load spaceship image
+    player_image = pygame.image.load('/home/mpeckus/game_project/ufo.png').convert_alpha() # Load spaceship image
+    # Calculate dimensions of the player image
+    original_width, original_height = player_image.get_size()
+    # Calculate aspect ratio
+    aspect_ratio = original_width / original_height
+
+    # Check screen dimensions, resize player image
+    if SCREEN_WIDTH <= 360 and SCREEN_HEIGHT <= 640:
+        player_width = int(SCREEN_WIDTH * 0.07)
+        player_height = int(player_width / aspect_ratio)
+        print(f'player width in mobile screen {player_width}')
+        print(f'player height in mobile screen {player_height}')
+        if player_height > int(SCREEN_HEIGHT * 0.07):
+            player_height = int(SCREEN_HEIGHT * 0.07)
+            player_width = int(player_height * aspect_ratio)
+    else:
+        player_width = int(SCREEN_WIDTH * 0.07)
+        player_height = int(SCREEN_HEIGHT * 0.166)
+
     player_image = pygame.transform.scale(player_image, (player_width, player_height)) # Resize image
+    print('original widt', original_width)
+    print('original_height', original_height)
+    print('aspect ratio', aspect_ratio)
 
     # Create sprite groups for efficient updates and rendering    
     updatable = pygame.sprite.Group() # Sprites with behavior to update
@@ -59,10 +86,10 @@ def main():
 
     # Initialize score
     score = 0
-    # Dynamically calculate font height. Font height ~32
-    font_height = int(SCREEN_HEIGHT * 0.045)
+    # Dynamically calculate font height. Font size ~32
+    font_size = int(SCREEN_HEIGHT * 0.045)
     try:
-        score_font = pygame.font.Font('/home/mpeckus/game_project/assets/fonts_folder/game_fonts.ttf', font_height) # Custom font, height 32
+        score_font = pygame.font.Font('/home/mpeckus/game_project/assets/fonts_folder/game_fonts.ttf', font_size) # Custom font, size 32
     except FileNotFoundError:
         print('Custom font not found. Falling back to default font')
         score_font = pygame.font.Font(None, 36) # Default font, height 36
@@ -107,7 +134,7 @@ def main():
                     # Display crash message
                     screen.fill(Black) # Fill screen with black
                     pygame.font.init() # Initialize font module
-                    font = pygame.font.Font('/home/mpeckus/game_project/assets/fonts_folder/game_fonts.ttf', font_height) # Custom font object, height 32
+                    font = pygame.font.Font('/home/mpeckus/game_project/assets/fonts_folder/game_fonts.ttf', font_size) # Custom font object, size 32
                 except FileNotFoundError:# Custom font not found
                     print('Custom font not found. Falling back to default font')
                     font = pygame.font.Font(None, 36) # Default font, size 36

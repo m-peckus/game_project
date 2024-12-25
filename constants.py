@@ -5,11 +5,11 @@ pygame.init()
 # Get display info dinamically
 display_info = pygame.display.Info()
 
-# Dynamically calculated variales
+# Dynamically calculate variables
 SCREEN_WIDTH = display_info.current_w
 SCREEN_HEIGHT = display_info.current_h
 
-# Previously used static variables
+# Originaly used static variables
 #SCREEN_WIDTH = 1280 
 #SCREEN_HEIGHT = 720
 
