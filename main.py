@@ -48,23 +48,21 @@ def main():
     # Calculate aspect ratio
     aspect_ratio = original_width / original_height
 
-    # Check screen dimensions, resize player image
-    if SCREEN_WIDTH <= 360 and SCREEN_HEIGHT <= 640:
+    # Check screen dimensions and resize player image accordingly
+    if SCREEN_WIDTH <= 360 and SCREEN_HEIGHT <= 640: # Mobile resolution check
         player_width = int(SCREEN_WIDTH * 0.07)
+
         player_height = int(player_width / aspect_ratio)
-        print(f'player width in mobile screen {player_width}')
-        print(f'player height in mobile screen {player_height}')
-        if player_height > int(SCREEN_HEIGHT * 0.07):
-            player_height = int(SCREEN_HEIGHT * 0.07)
-            player_width = int(player_height * aspect_ratio)
+        
     else:
         player_width = int(SCREEN_WIDTH * 0.07)
-        player_height = int(SCREEN_HEIGHT * 0.166)
+        #player_height = int(SCREEN_HEIGHT * 0.166)
+        player_height = int(player_width / aspect_ratio)
 
     player_image = pygame.transform.scale(player_image, (player_width, player_height)) # Resize image
-    print('original widt', original_width)
-    print('original_height', original_height)
-    print('aspect ratio', aspect_ratio)
+    print(f'original dimensions:  {original_width}X{original_height}')
+    print(f'Resized Dimensions: {player_width}x{player_height}')
+    print(f'Aspect ratio:  {aspect_ratio}')
 
     # Create sprite groups for efficient updates and rendering    
     updatable = pygame.sprite.Group() # Sprites with behavior to update

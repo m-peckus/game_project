@@ -3,19 +3,19 @@ pygame.init()
 
 
 # Get display info dinamically
-display_info = pygame.display.Info()
+#display_info = pygame.display.Info()
 
 # Dynamically calculate variables
-SCREEN_WIDTH = display_info.current_w
-SCREEN_HEIGHT = display_info.current_h
+#SCREEN_WIDTH = display_info.current_w
+#SCREEN_HEIGHT = display_info.current_h
 
 # Originaly used static variables
 #SCREEN_WIDTH = 1280 
 #SCREEN_HEIGHT = 720
 
 # For mobile-like resolutions
-#SCREEN_WIDTH = 360
-#SCREEN_HEIGHT = 640
+SCREEN_WIDTH = 360
+SCREEN_HEIGHT = 640
 
 """
 Simulate various screen sizes by manually setting SCREEN_WIDTH and SCREEN_HEIGHT to different values.
