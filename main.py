@@ -42,7 +42,8 @@ def main():
 
 
     # Load and scale player image
-    player_image = pygame.image.load('/home/mpeckus/game_project/ufo.png').convert_alpha() # Load spaceship image
+    player_image = pygame.image.load('/home/mpeckus/game_project/saucer.png').convert_alpha() # Load spaceship image
+    
     # Calculate dimensions of the player image
     original_width, original_height = player_image.get_size()
     # Calculate aspect ratio
